@@ -5,9 +5,17 @@ let userSignedIn = false;
 
 function initiateGitHubLogin() {
     const clientId = 'Ov23liorvtEWCHLmcDXP';
-    const redirectUri = encodeURIComponent(window.location.href);
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
+    const redirectUri = encodeURIComponent(window.location.href + '/callback');
+    const scope = 'user:email';
+    const state = generateRandomState();
+    
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;
+    
     window.location.href = githubAuthUrl;
+}
+
+function generateRandomState() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
 function handleGitHubCallback() {
