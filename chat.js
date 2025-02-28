@@ -5,7 +5,7 @@ let userSignedIn = false;
 
 function initiateGitHubLogin() {
     const clientId = 'Ov23liorvtEWCHLmcDXP';
-    const redirectUri = encodeURIComponent(https://importurl.github.io/indigo/);
+    const redirectUri = encodeURIComponent(window.location.href);
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
     window.location.href = githubAuthUrl;
 }
