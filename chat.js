@@ -4,7 +4,7 @@ const chatMessages = document.getElementById('chatMessages');
 let userSignedIn = false;
 
 function initiateGitHubLogin() {
-    const clientId = 'YOUR_GITHUB_CLIENT_ID';
+    const clientId = 'Ov23liorvtEWCHLmcDXP';
     const redirectUri = encodeURIComponent(window.location.origin);
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
     window.location.href = githubAuthUrl;
