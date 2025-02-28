@@ -38,4 +38,23 @@ app.post('/api/generate', async (req, res) => {
             body: JSON.stringify({
                 prompt: req.body.prompt,
                 model: 'command-xlarge-nightly',
-                max
+                max_tokens: 50,
+                temperature: 0.7,
+            })
+        });
+
+        if (!cohereResponse.ok) {
+            throw new Error(`Cohere API error: ${cohereResponse.status}`);
+        }
+
+        const data = await cohereResponse.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'An error occurred while processing the request' });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
