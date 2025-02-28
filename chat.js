@@ -5,7 +5,7 @@ let userSignedIn = false;
 
 function initiateGitHubLogin() {
     const clientId = 'Ov23liorvtEWCHLmcDXP';
-    const redirectUri = encodeURIComponent(window.location.href + '/callback');
+    const redirectUri = encodeURIComponent(window.location.href');
     const scope = 'user:email';
     const state = generateRandomState();
     
