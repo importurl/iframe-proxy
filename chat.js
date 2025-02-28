@@ -5,7 +5,7 @@ let userSignedIn = false;
 
 function initiateGitHubLogin() {
     const clientId = 'Ov23liorvtEWCHLmcDXP';
-    const redirectUri = encodeURIComponent(window.location.href);
+    const redirectUri = encodeURIComponent(window.location.origin); // Ensure the URI is correct.
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
     window.location.href = githubAuthUrl;
 }
@@ -15,13 +15,14 @@ function handleGitHubCallback() {
     const code = urlParams.get('code');
 
     if (code) {
+        // Send the code to your server to exchange it for an access token.
         fetch('/api/github/callback?code=' + code)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     userSignedIn = true;
                     document.getElementById('loginContainer').style.display = 'none';
-                    document.getElementById('chatContainer').style.display = 'flex';
+                    document.getElementById('chatContainer').style.display = 'flex'; // Changed to flex
                 } else {
                     alert('GitHub authentication failed.');
                 }
@@ -76,13 +77,14 @@ async function sendMessage() {
         loadingMessage.appendChild(loadingIcon);
 
         try {
-            const response = await fetch('/api/generate', {
+            const response = await fetch('/api/generate', {  // Changed to proxy endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     prompt: userMessage,
+                    // Add any other parameters needed by the proxy
                 })
             });
 
