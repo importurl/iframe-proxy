@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indigo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"> <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"> <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+</head>
+<body>
+    <div class="navbar">
+        <i class="fa-solid fa-expand" id="fullscreen-button" onclick="toggleFullscreen()"></i>
+        <i class="fa-solid fa-gear" onclick="toggleSettings()"></i>
+    </div>
+
+    <div class="settings-panel" id="settings-panel">
+        <div>
+            <i class="fa-solid fa-moon"></i>
+            <label for="theme-toggle" class="switch">
+                <input type="checkbox" id="theme-toggle" role="switch">
+                <span class="slider round"></span>
+            </label>
+            <i class="fa-solid fa-sun"></i>
+        </div>
+    </div>
+
+    <div id="loginContainer">
+        <h2>This page requires you to sign in.</h2>
+        <button onclick="initiateGitHubLogin()" class="github-button">
+            <i class="fa-brands fa-github"></i> Sign in with GitHub
+        </button>
+    </div>
+
+    <div id="chatContainer" class="chat-container" style="display: none;">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="prompt" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const volumeSlider = document.getElementById('volume');
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        let isFullscreen = false;
+        let fullscreenIframe = null;
+        const threshold = 50;
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+            }
+            localStorage.setItem('userTheme', theme);
+        }
+
+        function toggleFullscreen() {
+            if (!isFullscreen) {
+                fullscreenIframe = document.createElement('iframe');
+                fullscreenIframe.src = iframe.src;
+                fullscreenIframe.classList.add('fullscreen-iframe');
+                fullscreenIframe.id = 'fullscreen-iframe';
+                document.body.appendChild(fullscreenIframe);
+                iframe.style.display = 'none';
+                fullscreenButton.classList.remove('fa-expand');
+                fullscreenButton.classList.add('fa-compress');
+            } else {
+                exitFullscreen();
+            }
+            isFullscreen = !isFullscreen;
+        }
+
+        function exitFullscreen() {
+            if (fullscreenIframe) {
+                fullscreenIframe.remove();
+                fullscreenIframe = null;
+            }
+            iframe.style.display = 'block';
+            fullscreenButton.classList.remove('fa-compress');
+            fullscreenButton.classList.add('fa-expand');
+            isFullscreen = false;
+        }
+
+        const userTheme = localStorage.getItem('userTheme') || 'dark';
+        setTheme(userTheme);
+        themeToggle.checked = userTheme === 'light';
+
+        themeToggle.addEventListener('change', () => {
+            setTheme(themeToggle.checked ? 'light' : 'dark');
+        });
+    </script>
+</body>
+</html>
